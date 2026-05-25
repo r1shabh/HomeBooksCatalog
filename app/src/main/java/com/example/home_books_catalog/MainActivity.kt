@@ -20,18 +20,5 @@ class MainActivity : ComponentActivity() {
                 BookListScreen()
             }
         }
-        lifecycleScope.launch {
-            try {
-                val response = RetrofitInstance.api.getBookByIsbn("ISBN:9780743273565")
-                android.util.Log.d("BookTest", "Response: $response")
-                val book = BookLookupService.lookupByIsbn("9780743273565")
-                android.util.Log.d("BookTest", "Book: $book")
-                book?.let {
-                    (applicationContext as BookCatalogApplication).repository.insertBook(it)
-                }
-            } catch (e: Exception) {
-                android.util.Log.e("BookTest", "Error: ${e.message}", e)
-            }
-        }
     }
 }

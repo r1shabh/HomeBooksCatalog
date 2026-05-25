@@ -6,25 +6,25 @@ object BookLookupService {
 
     suspend fun lookupByIsbn(isbn: String): Book? {
         return try {
-            val response = RetrofitInstance.api.getBookByIsbn("ISBN:$isbn")
+            val key = "ISBN:$isbn"
+            val response = RetrofitInstance.api.getBookByIsbn(bibkeys = key)
+            val bookData = response[key] ?: return null
 
-            val title = response.title ?: return null
-            val authors = response.authors
-                ?.mapNotNull { it.key?.removePrefix("/authors/") }
+            val title = bookData.title ?: return null
+            val authors = bookData.authors
+                ?.mapNotNull { it.name }
                 ?.joinToString(", ")
                 ?: "Unknown Author"
-            val coverUrl = response.covers
-                ?.firstOrNull()
-                ?.let { "https://covers.openlibrary.org/b/id/$it-M.jpg" }
 
             Book(
                 isbn = isbn,
                 title = title,
                 authors = authors,
-                publishYear = response.publishDate,
-                coverUrl = coverUrl
+                publishYear = bookData.publishDate,
+                coverUrl = bookData.cover?.medium
             )
         } catch (e: Exception) {
+            android.util.Log.e("BookLookup", "Error: ${e.message}", e)
             null
         }
     }

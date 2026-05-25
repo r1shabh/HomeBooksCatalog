@@ -1,10 +1,14 @@
 package com.example.home_books_catalog.network
 
 import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface OpenLibraryApi {
 
-    @GET("books/{isbn}.json")
-    suspend fun getBookByIsbn(@Path("isbn") isbn: String): OpenLibraryResponse
+    @GET("api/books")
+    suspend fun getBookByIsbn(
+        @Query("bibkeys") bibkeys: String,
+        @Query("format") format: String = "json",
+        @Query("jscmd") jscmd: String = "data"
+    ): Map<String, BookData>
 }
