@@ -55,7 +55,11 @@ fun CameraPreview(
                                 barcodeScanner.process(image)
                                     .addOnSuccessListener { barcodes ->
                                         barcodes
-                                            .firstOrNull { it.format == Barcode.FORMAT_EAN_13 }
+                                            .firstOrNull {
+                                                it.format == Barcode.FORMAT_EAN_13 ||
+                                                        it.format == Barcode.FORMAT_EAN_8 ||
+                                                        it.format == Barcode.FORMAT_CODE_128
+                                            }
                                             ?.rawValue
                                             ?.let { onBarcodeDetected(it) }
                                     }
