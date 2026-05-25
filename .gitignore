@@ -1,15 +1,25 @@
+# Gradle
 *.iml
-.gradle
-/local.properties
+.gradle/
+local.properties
+/build
+
+# IDE
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+/.idea/.gitignore
+
+# OS
 .DS_Store
-/build
+
+# Build outputs
 /captures
 .externalNativeBuild
 .cxx
-local.properties
+
+# App build outputs
+app/build/
